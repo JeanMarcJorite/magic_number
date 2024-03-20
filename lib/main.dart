@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:magic_number/button.dart';
+import 'package:magic_number/page_jouer.dart';
+import 'package:magic_number/page_score.dart';
 
 void main() {
   runApp(const MagicNumber());
@@ -10,6 +13,7 @@ class MagicNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Magic Number',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(background: const Color(0xFFCEE4F2)),
@@ -30,20 +34,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
+  void navigateToPage1() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Jouer()));
+  }
+
+  void navigateToPage2() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Score()));
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         backgroundColor: const Color(0xFFCEE4F2),
+
       ),
-      body: Center(
-        child: Text(
-          'Magic Number',
-          style: Theme.of(context).textTheme.headline4,
-        ),
+
+       body: Column(
+        children: [
+          Center(
+            child: Text(
+              'Magic Number',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ),
+          ButtonSelect(
+            text: 'Go to Page 1',
+            onPressed: navigateToPage1,
+          ),
+          ButtonSelect(
+            text: 'Go to Page 2',
+            onPressed: navigateToPage2,
+          ),
+        ],
       ),
-      
     );
   }
 }
