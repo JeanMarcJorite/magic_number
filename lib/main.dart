@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:magic_number/button.dart';
+import 'package:magic_number/page_jouer.dart';
+import 'package:magic_number/page_score.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -31,43 +34,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _numberController = TextEditingController();
-
-  @override
-  void dispose() {
-    _numberController.dispose();
-    super.dispose();
+  
+  void navigateToPage1() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Jouer()));
   }
+
+  void navigateToPage2() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Score()));
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         backgroundColor: const Color(0xFFCEE4F2),
+
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'MAGIC NUMBER',
-              style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
+
+       body: Column(
+        children: [
+          Center(
+            child: Text(
+              'Magic Number',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _numberController,
-                decoration: const InputDecoration(
-                  labelText: 'Entrez votre prénom',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-          ],
-        ),
-        
+          ),
+          ButtonSelect(
+            text: 'Go to Page 1',
+            onPressed: navigateToPage1,
+          ),
+          ButtonSelect(
+            text: 'Go to Page 2',
+            onPressed: navigateToPage2,
+          ),
+        ],
       ),
-      
     );
   }
 }
