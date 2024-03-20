@@ -18,7 +18,8 @@ class MagicNumber extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Magic Number',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(background: const Color(0xFFCEE4F2)),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(background: const Color(0xFFCEE4F2)),
       ),
       home: const MyHomePage(title: 'Magic Number'),
     );
@@ -35,39 +36,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   void navigateToPage1() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Jouer()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Page_Jouer()));
   }
 
   void navigateToPage2() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Page_Score()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Page_Score()));
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: const Color(0xFFCEE4F2),
-
       ),
-
-       body: Column(
+      body: Column(
         children: [
+          Image.asset('assets/img/logo.png',
+              width: 450, height: 300, fit: BoxFit.cover),
           Center(
             child: Text(
-              'Magic Number',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'MAGIC NUMBER',
+              style: GoogleFonts.getFont('Jomhuria',
+                      fontSize: 65, color: const Color(0xFF1B2F48)),
             ),
           ),
           ButtonSelect(
-            text: 'Go to Page 1',
+            text: 'JOUER',
             onPressed: navigateToPage1,
           ),
           ButtonSelect(
-            text: 'Go to Page 2',
+            text: 'SCORES',
             onPressed: navigateToPage2,
           ),
           ButtonSelect(
