@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 void main() {
   runApp(const MagicNumber());
 }
@@ -10,7 +11,8 @@ class MagicNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title:'Magic Number',  
+      debugShowCheckedModeBanner: false,
+      title: 'Magic Number',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(background: const Color(0xFFCEE4F2)),
       ),
@@ -29,7 +31,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
+  TextEditingController _numberController = TextEditingController();
+
+  @override
+  void dispose() {
+    _numberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +46,26 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xFFCEE4F2),
       ),
       body: Center(
-          child:  Text(
-          'MAGIC NUMBER',
-          style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
-          
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'MAGIC NUMBER',
+              style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextFormField(
+                controller: _numberController,
+                decoration: const InputDecoration(
+                  labelText: 'Entrez votre prénom',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ],
         ),
+        
       ),
       
     );
