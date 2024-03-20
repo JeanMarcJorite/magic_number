@@ -39,14 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Text(
+          'Magic Number',
           style: Theme.of(context).textTheme.headline4,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      
     );
   }
 }
