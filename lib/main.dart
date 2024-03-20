@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(const MagicNumber());
 }
@@ -10,7 +10,7 @@ class MagicNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Magic Number',
+      title:'Magic Number',  
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(background: const Color(0xFFCEE4F2)),
       ),
@@ -38,9 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xFFCEE4F2),
       ),
       body: Center(
-        child: Text(
-          'Magic Number',
-          style: Theme.of(context).textTheme.headline4,
+          child:  Text(
+          'MAGIC NUMBER',
+          style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
+          
         ),
       ),
       
