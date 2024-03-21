@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/UI/button.dart';
 import 'package:magic_number/UI/game.dart';
 
+
 class Page_Jouer extends StatefulWidget {
   const Page_Jouer({super.key});
 
@@ -28,6 +29,8 @@ class Page_JouerState extends State<Page_Jouer> {
     );
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,6 @@ class Page_JouerState extends State<Page_Jouer> {
       ),
       body: Center(
         child: ListView(
-          // Utilisez ListView au lieu de Column
           children: [
             Text(
               'MAGIC NUMBER',
@@ -44,17 +46,48 @@ class Page_JouerState extends State<Page_Jouer> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _numberController,
-                decoration: const InputDecoration(
-                  labelText: 'Entrez votre prénom',
-                  border: OutlineInputBorder(),
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _numberController,
+                  decoration: const InputDecoration(
+                    labelText: "Entrez nom d'utilisateur",
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Veuillez remplir le champ';
+                    }
+                    return null;
+                  },
                 ),
               ),
             ),
             ButtonSelect(
               text: 'Valider',
-              onPressed: navigateToPage3,
+              onPressed: () {
+                if (_formKey.currentState?.validate() ?? false) {
+                  navigateToPage3();
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Erreur',  style: GoogleFonts.getFont('Jomhuria', fontSize: 40)),
+                        content: const Text('Veuillez remplir le champ'),
+                        actions: [
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ],
         ),
