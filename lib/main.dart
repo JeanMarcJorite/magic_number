@@ -1,19 +1,67 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+import 'package:magic_number/UI/home.dart';
+=======
 import 'package:magic_number/button.dart';
 import 'package:magic_number/page_jouer.dart';
 import 'package:magic_number/page_score.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/rules.dart';
+>>>>>>> 11a3a8fa8877e2a697c1d9327b62bbbfe5ead91f
 
-void main() {
-  runApp(const MagicNumber());
+import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:magic_number/viewmodel/user_view_model.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:provider/provider.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'user_database.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE user (name TEXT PRIMARY KEY, score INTEGER)',
+      );
+    },
+    version: 1,
+  );
+
+  final db = await database;
+
+  runApp(MagicNumber(db));
 }
 
 class MagicNumber extends StatelessWidget {
-  const MagicNumber({Key? key}) : super(key: key);
+  final Database database;
+
+  const MagicNumber(this.database, {super.key});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) {
+            UserViewModel userViewModel = UserViewModel(database);
+            userViewModel.refreshUsers();
+            return userViewModel;
+          },
+        ),
+        Provider<Database>.value(value: database),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Magic Number',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(background: const Color(0xFFCEE4F2)),
+        ),
+        home: const MyHomePage(),
+=======
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Magic Number',
@@ -77,6 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
         ],
+>>>>>>> 11a3a8fa8877e2a697c1d9327b62bbbfe5ead91f
       ),
     );
   }
