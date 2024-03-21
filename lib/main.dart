@@ -1,76 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:magic_number/button.dart';
-import 'package:magic_number/page_jouer.dart';
-import 'package:magic_number/page_score.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:magic_number/UI/home.dart';
 
-void main() {
-  runApp(const MagicNumber());
+import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:magic_number/viewmodel/user_view_model.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:provider/provider.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'user_database.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE user (name TEXT PRIMARY KEY, score INTEGER)',
+      );
+    },
+    version: 1,
+  );
+
+  final db = await database;
+
+  runApp(MagicNumber(db));
 }
 
 class MagicNumber extends StatelessWidget {
-  const MagicNumber({Key? key}) : super(key: key);
+  final Database database;
+
+  const MagicNumber(this.database, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Magic Number',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(background: const Color(0xFFCEE4F2)),
-      ),
-      home: const MyHomePage(title: 'Magic Number'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void navigateToPage1() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Page_Jouer()));
-  }
-
-  void navigateToPage2() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Page_Score()));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFCEE4F2),
-      ),
-      body: Column(
-        children: [
-          Image.asset('assets/img/logo.png',
-              width: 450, height: 300, fit: BoxFit.cover),
-          Center(
-            child: Text(
-              'MAGIC NUMBER',
-              style: GoogleFonts.getFont('Jomhuria',
-                      fontSize: 65, color: const Color(0xFF1B2F48)),
-            ),
-          ),
-          ButtonSelect(
-            text: 'JOUER',
-            onPressed: navigateToPage1,
-          ),
-          ButtonSelect(
-            text: 'SCORES',
-            onPressed: navigateToPage2,
-          ),
-        ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) {
+            UserViewModel userViewModel = UserViewModel(database);
+            userViewModel.refreshUsers();
+            return userViewModel;
+          },
+        ),
+        Provider<Database>.value(value: database),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Magic Number',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(background: const Color(0xFFCEE4F2)),
+        ),
+        home: const MyHomePage(),
       ),
     );
   }
