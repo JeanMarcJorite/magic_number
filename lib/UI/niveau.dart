@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/random_number.dart';
 
@@ -63,12 +64,20 @@ class _NiveauState extends State<Niveau> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Text('Nombre à trouver: ${randomNumber.findNumber}'),
               Text(
-                  'Nombre d\'essais restants: ${randomNumber.nbCoupsRestants}'),
+                'Nombre à trouver: ${randomNumber.findNumber}',
+                style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
+              ),
+              Text(
+                'Nombre d\'essais restants: ${randomNumber.nbCoupsRestants}',
+                style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
+              ),
               TextFormField(
-                decoration:
-                    const InputDecoration(labelText: 'Entrez un nombre'),
+                decoration: InputDecoration(
+                  labelText: 'Entrez un nombre',
+                  labelStyle: GoogleFonts.getFont('Jomhuria', fontSize: 40),
+                  border: const OutlineInputBorder(),
+                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
