@@ -42,4 +42,3 @@ class UserViewModel extends ChangeNotifier {
     }
   }
 
-// Path: magic_number/lib/viewmodel/user_view_model.dart

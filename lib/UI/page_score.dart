@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Page_Score extends StatefulWidget {
-  Page_Score({Key? key}) : super(key: key);
+  Page_Score({super.key});
 
   @override
   _Page_ScoreState createState() => _Page_ScoreState();
@@ -15,7 +15,7 @@ class Page_Score extends StatefulWidget {
 class _Page_ScoreState extends State<Page_Score> {
   int? _sortColumnIndex;
   final List<String> _columns = ['Nom du joueur ', 'Score du joueur'];
-  bool isAscending = true;
+  bool estCroissant = true;
   List<User> users = [];
   int _rowsPerPage = 8;
 
@@ -59,7 +59,7 @@ class _Page_ScoreState extends State<Page_Score> {
                   });
                 },
                 sortColumnIndex: _sortColumnIndex,
-                sortAscending: isAscending,
+                sortAscending: estCroissant,
                 columns: getColonnes(_columns),
                 source: _DataSource(context, users),
               ),
@@ -104,38 +104,37 @@ class _Page_ScoreState extends State<Page_Score> {
   List<DataCell> getCells(List<dynamic> cells) =>
       cells.map((data) => DataCell(Text('$data'))).toList();
 
-  void onSort(int columnIndex, bool ascending) {
-    print(
-        'Sorting column: $columnIndex'); 
+  void onSort(int columnIndex, bool croissant) {
+    print('Sorting column: $columnIndex');
 
     late List<User> sortedUsers;
     if (columnIndex == 0) {
       sortedUsers = List.from(users)
         ..sort(
-            (user1, user2) => compareString(ascending, user1.name, user2.name));
+            (user1, user2) => compareString(croissant, user1.name, user2.name));
       print(" Liste refaite par NOM $sortedUsers");
     } else if (columnIndex == 1) {
       sortedUsers = List.from(users)
         ..sort(
-            (user1, user2) => compareInt(ascending, user1.score, user2.score));
+            (user1, user2) => compareInt(croissant, user1.score, user2.score));
       print(" Liste refaite par SCORE $sortedUsers");
     }
     setState(() {
       _sortColumnIndex = columnIndex;
-      isAscending = ascending;
+      estCroissant = croissant;
       users = sortedUsers;
     });
   }
 
-  int compareString(bool ascending, String value1, String value2) {
-    return ascending ? value1.compareTo(value2) : value2.compareTo(value1);
+  int compareString(bool croissant, String value1, String value2) {
+    return croissant ? value1.compareTo(value2) : value2.compareTo(value1);
   }
 
-  int compareInt(bool ascending, int value1, int value2) {
-    if (value1 < value2) {
-      return ascending ? -1 : 1;
-    } else if (value1 > value2) {
-      return ascending ? 1 : -1;
+  int compareInt(bool croissant, int valeur1, int valeur2) {
+    if (valeur1 < valeur2) {
+      return croissant ? -1 : 1;
+    } else if (valeur1 > valeur2) {
+      return croissant ? 1 : -1;
     } else {
       return 0;
     }

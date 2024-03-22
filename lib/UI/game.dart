@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/UI/button.dart';
 import 'package:magic_number/UI/home.dart';
+import 'package:magic_number/UI/niveau.dart';
 import 'package:magic_number/models/user.dart';
 import 'package:magic_number/viewmodel/user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -42,39 +43,36 @@ class GamePlay extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ButtonSelect(
-                level: 1,
                 text: 'FACILE',
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyHomePage()));
+                          builder: (context) => Niveau(level: 1)));
                 },
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ButtonSelect(
-                level: 2,
                 text: 'MOYEN',
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyHomePage()));
+                          builder: (context) =>  Niveau(level:  2)));
                 },
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ButtonSelect(
-                level: 3 ,
                 text: 'DIFFICILE',
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyHomePage()));
+                          builder: (context) => Niveau(level: 3)));
                 },
               ),
             ),
