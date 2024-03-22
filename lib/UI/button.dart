@@ -7,6 +7,7 @@ class ButtonSelect extends StatelessWidget {
   final Color buttonColor;
   final Color textColor;
   final String textStyle;
+  final int level;
 
   const ButtonSelect({
     super.key,
@@ -15,6 +16,7 @@ class ButtonSelect extends StatelessWidget {
     this.buttonColor = const Color(0xFF1B2F48),
     this.textColor = const Color(0xFFF5F5F5),
     this.textStyle = "Jomhuria",
+    this.level = 0,
   });
 
 
@@ -33,3 +35,4 @@ class ButtonSelect extends StatelessWidget {
     );
   }
 }
+

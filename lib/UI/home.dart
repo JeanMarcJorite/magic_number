@@ -41,17 +41,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 65, color: const Color(0xFF1B2F48)),
               ),
             ),
-            ButtonSelect(
-              text: 'JOUER',
-              onPressed: navigateToPage1,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                text: 'JOUER',
+                onPressed: navigateToPage1,
+              ),
             ),
-            ButtonSelect(
-              text: 'SCORES',
-              onPressed: navigateToPage2,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                text: 'SCORES',
+                onPressed: navigateToPage2,
+              ),
             ),
-            ButtonSelect(
-              text: 'Règles',
-              onPressed: () => dialogBuilder(context),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                text: 'Règles',
+                onPressed: () => dialogBuilder(context),
+              ),
             ),
           ],
         ),

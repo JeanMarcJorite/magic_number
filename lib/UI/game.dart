@@ -19,7 +19,7 @@ class GamePlay extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCEE4F2),
-        centerTitle: true ,
+        centerTitle: true,
         title: GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(
@@ -36,8 +36,47 @@ class GamePlay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'IN GAME',
+              'Choisisez un niveau',
               style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                level: 1,
+                text: 'FACILE',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()));
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                level: 2,
+                text: 'MOYEN',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()));
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonSelect(
+                level: 3 ,
+                text: 'DIFFICILE',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()));
+                },
+              ),
             ),
           ],
         ),
