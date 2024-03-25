@@ -5,22 +5,25 @@ import 'dart:math';
 class RandomNumber {
   late int _findNumber;
   late int _nbCoupsRestants;
-  late int nbCoupsFait;
 
   RandomNumber({required int level}) {
-    _nbCoupsRestants = level + 2;
-    nbCoupsFait = 0;
-    _findNumber = Random().nextInt(level * 10) + 1;
+    if (level == 1) {
+      _nbCoupsRestants = 10;
+      _findNumber = Random().nextInt(20) + 1;
+    } else if (level == 2) {
+      _nbCoupsRestants = 15;
+      _findNumber = Random().nextInt(50) + 1;
+    } else {
+      _nbCoupsRestants = 20;
+      _findNumber = Random().nextInt(100) + 1;
+    }
   }
 
   String compare(int number) {
-    _nbCoupsRestants--;
-    if (number == findNumber) {
-      return 'Bravo! Vous avez trouvé le nombre magique en $nbCoupsFait coups';
-    } else if (number < findNumber) {
-      return 'Votre nombre est supérieur au mien';
-    } else {
+    if (number < findNumber) {
       return 'Votre nombre est inférieur au mien';
+    } else {
+      return 'Votre nombre est supérieur au mien';
     }
   }
 
@@ -29,6 +32,10 @@ class RandomNumber {
   int get nbCoupsRestants => _nbCoupsRestants;
 
   int get findNumber => _findNumber;
+
+  void coup(){
+    _nbCoupsRestants--;
+  }
 
   @override
   String toString() {

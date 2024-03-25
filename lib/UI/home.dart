@@ -3,6 +3,7 @@ import 'package:magic_number/UI/button.dart';
 import 'package:magic_number/UI/page_jouer.dart';
 import 'package:magic_number/UI/page_score.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:magic_number/UI/victoire.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -14,12 +15,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void navigateToPage1() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Page_Jouer()));
+        context, MaterialPageRoute(builder: (context) => const Page_Jouer()));
   }
 
   void navigateToPage2() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Page_Score()));
+        context, MaterialPageRoute(builder: (context) => const Page_Score()));
   }
 
   @override

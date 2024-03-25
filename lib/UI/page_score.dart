@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Page_Score extends StatefulWidget {
-  Page_Score({super.key});
+  const Page_Score({super.key});
 
   @override
   _Page_ScoreState createState() => _Page_ScoreState();

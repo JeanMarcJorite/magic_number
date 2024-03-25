@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/random_number.dart';
-
+import 'package:magic_number/UI/victoire.dart';
+import 'package:magic_number/UI/perdu.dart';
 class Niveau extends StatefulWidget {
   final int level;
 
@@ -27,25 +28,38 @@ class _NiveauState extends State<Niveau> {
   }
 
   void submitNbChercher() {
-    randomNumber.nbCoupsFait++;
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       setState(() {
         message = randomNumber.compare(nbChercher);
+        randomNumber.coup();
+        if (randomNumber.nbCoupsRestants > 0 && randomNumber.findNumber == nbChercher) {
+          navigationVictoire();
+        } else
         if (randomNumber.isGameOver) {
           message = 'Perdu! Le nombre magique était ${randomNumber.findNumber}';
-          navigationHome();
+          navigationPerdu();
         }
       });
     }
   }
 
-  void navigationHome() {
-    if (randomNumber.nbCoupsRestants < 0) {
+  void navigationPerdu(){
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const MyHomePage(),
+          builder: (context) => const PerdrePage(),
+        ),
+        (Route<dynamic> route) => false,
+      );
+  }
+
+  void navigationVictoire() {
+    if (randomNumber.nbCoupsRestants > 0) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const VictoirePage(),
         ),
         (Route<dynamic> route) => false,
       );
@@ -54,6 +68,7 @@ class _NiveauState extends State<Niveau> {
 
   @override
   Widget build(BuildContext context) {
+    print(randomNumber.findNumber);
     return Scaffold(
       appBar: AppBar(
         title: Text('Niveau ${widget.level}'),
@@ -64,11 +79,9 @@ class _NiveauState extends State<Niveau> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Text(
-                'Nombre à trouver: ${randomNumber.findNumber}',
-                style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
-              ),
-              Text(
+              Image.asset('assets/img/jafarGame.png',
+                width: 300, height: 200),
+                Text(
                 'Nombre d\'essais restants: ${randomNumber.nbCoupsRestants}',
                 style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
               ),
@@ -89,9 +102,11 @@ class _NiveauState extends State<Niveau> {
                   nbChercher = int.parse(value!);
                 },
               ),
+            
+              
               ElevatedButton(
                 onPressed: submitNbChercher,
-                child: const Text('Soumettre'),
+                child: const Text('TESTER'),
               ),
               Text(message),
             ],
