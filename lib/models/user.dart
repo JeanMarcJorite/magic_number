@@ -15,6 +15,14 @@ class User {
     };
   }
 
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      name: map['name'],
+      score: map['score'],
+    );
+  }
+
+
   @override
   String toString() {
     return 'User{name: $name, score: $score}';

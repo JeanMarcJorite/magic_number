@@ -6,10 +6,15 @@ import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/random_number.dart';
 import 'package:magic_number/UI/victoire.dart';
 import 'package:magic_number/UI/perdu.dart';
+import 'package:magic_number/models/user.dart';
+import 'package:magic_number/viewmodel/user_view_model.dart';
+import 'package:provider/provider.dart';
+
 class Niveau extends StatefulWidget {
   final int level;
+  final String playerName;
 
-  Niveau({super.key, required this.level});
+  Niveau({super.key, required this.level, required this.playerName});
 
   @override
   _NiveauState createState() => _NiveauState();
@@ -27,16 +32,25 @@ class _NiveauState extends State<Niveau> {
     randomNumber = RandomNumber(level: widget.level);
   }
 
+  updateScore(int scoreUser) async {
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+    final user = User(name: widget.playerName, score: scoreUser);
+    await userViewModel.updateScoreUser(user, user.score);
+  }
+
   void submitNbChercher() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       setState(() {
         message = randomNumber.compare(nbChercher);
         randomNumber.coup();
-        if (randomNumber.nbCoupsRestants > 0 && randomNumber.findNumber == nbChercher) {
+        if (randomNumber.nbCoupsRestants > 0 &&
+            randomNumber.findNumber == nbChercher) {
+          updateScore(randomNumber.nbCoupsRestants);
+
           navigationVictoire();
-        } else
-        if (randomNumber.isGameOver) {
+        } else if (randomNumber.isGameOver) {
           message = 'Perdu! Le nombre magique était ${randomNumber.findNumber}';
           navigationPerdu();
         }
@@ -44,14 +58,14 @@ class _NiveauState extends State<Niveau> {
     }
   }
 
-  void navigationPerdu(){
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PerdrePage(),
-        ),
-        (Route<dynamic> route) => false,
-      );
+  void navigationPerdu() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PerdrePage(),
+      ),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void navigationVictoire() {
@@ -79,9 +93,8 @@ class _NiveauState extends State<Niveau> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Image.asset('assets/img/jafarGame.png',
-                width: 300, height: 200),
-                Text(
+              Image.asset('assets/img/jafarGame.png', width: 300, height: 200),
+              Text(
                 'Nombre d\'essais restants: ${randomNumber.nbCoupsRestants}',
                 style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
               ),
@@ -102,8 +115,6 @@ class _NiveauState extends State<Niveau> {
                   nbChercher = int.parse(value!);
                 },
               ),
-            
-              
               ElevatedButton(
                 onPressed: submitNbChercher,
                 child: const Text('TESTER'),

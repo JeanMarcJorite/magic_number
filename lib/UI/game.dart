@@ -48,7 +48,7 @@ class GamePlay extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Niveau(level: 1)));
+                          builder: (context) => Niveau(level: 1, playerName: playerName)));
                 },
               ),
             ),
@@ -60,7 +60,7 @@ class GamePlay extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>  Niveau(level:  2)));
+                          builder: (context) =>  Niveau(level:  2, playerName: playerName)));
                 },
               ),
             ),
@@ -72,7 +72,7 @@ class GamePlay extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Niveau(level: 3)));
+                          builder: (context) => Niveau(level: 3, playerName: playerName)));
                 },
               ),
             ),
