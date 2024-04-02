@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,6 +10,7 @@ class Page_Score extends StatefulWidget {
   const Page_Score({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _Page_ScoreState createState() => _Page_ScoreState();
 }
 
@@ -18,6 +20,7 @@ class _Page_ScoreState extends State<Page_Score> {
   bool estCroissant = true;
   List<User> users = [];
   int _rowsPerPage = 8;
+  int currentIndex = 1;
 
   @override
   void initState() {
@@ -87,6 +90,34 @@ class _Page_ScoreState extends State<Page_Score> {
           }
         },
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Score',
+            ),
+          ],
+          onTap: (value) => setState(() {
+                currentIndex = value;
+                if (currentIndex == 0) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                    (Route<dynamic> route) => false,
+                  );
+                } else {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Page_Score()),
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              })),
     );
   }
 
@@ -161,13 +192,13 @@ class _Page_ScoreState extends State<Page_Score> {
   }
 
   void deleteScores(Database database) {
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmation'),
-          content: const Text('Êtes-vous sûr de vouloir supprimer les scores ?'),
+          content:
+              const Text('Êtes-vous sûr de vouloir supprimer les scores ?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -186,11 +217,9 @@ class _Page_ScoreState extends State<Page_Score> {
         );
       },
     );
-
   }
-  
+
   void deleteScoresConfirmed(Database database) {
-  
     database.delete('user').then((value) {
       setState(() {
         users = [];

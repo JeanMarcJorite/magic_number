@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/random_number.dart';
 import 'package:magic_number/UI/victoire.dart';
 import 'package:magic_number/UI/perdu.dart';
 import 'package:magic_number/models/user.dart';
 import 'package:magic_number/viewmodel/user_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:magic_number/UI/page_score.dart';
 
 class Niveau extends StatefulWidget {
   final int level;
@@ -24,6 +26,9 @@ class _NiveauState extends State<Niveau> {
   late RandomNumber randomNumber;
   late int nbChercher;
   String message = '';
+  int currentIndex = 0;
+  
+  get pageController => null;
 
   @override
   void initState() {
@@ -94,7 +99,6 @@ class _NiveauState extends State<Niveau> {
 
   @override
   Widget build(BuildContext context) {
-    print(randomNumber.findNumber);
     return Scaffold(
       appBar: AppBar(
         title: Text('Niveau ${widget.level}'),
@@ -137,6 +141,35 @@ class _NiveauState extends State<Niveau> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Score',
+            ),
+          ],
+          onTap: (value) => setState(() {
+                currentIndex = value;
+                if (currentIndex == 0) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  const MyHomePage()),
+                    (Route<dynamic> route) => false,
+                  );
+                } else {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Page_Score()),
+                    (Route<dynamic> route) => true,
+                  );
+                }
+              })
+        ),
     );
   }
 }
