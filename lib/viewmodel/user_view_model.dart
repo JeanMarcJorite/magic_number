@@ -41,26 +41,6 @@ class UserViewModel extends ChangeNotifier {
     await database.delete('user');
   }
 
-  Future<void> updateScore(String name, int score) async {
-    print('Updating score for user: $name');
-
-    final List<Map<String, dynamic>> allUsers = await database.query('user');
-    print('All users: $allUsers');
-
-    final List<Map<String, dynamic>> maps =
-        await database.query('user', where: 'name = ?', whereArgs: [name]);
-    if (maps.isNotEmpty) {
-      final user = User.fromMap(maps.first);
-      user.score = score;
-      await database
-          .update('user', user.toMap(), where: 'name = ?', whereArgs: [name]);
-      print('User updated: $user');
-      notifyListeners();
-      refreshUsers();
-    } else {
-      print('User not found');
-    }
-  }
 
   void refreshUsers() {
     liste = [];
