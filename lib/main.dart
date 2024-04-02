@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:magic_number/UI/home.dart';
-
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/widgets.dart';
 import 'package:magic_number/viewmodel/user_view_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -63,7 +61,8 @@ Future<void> dialogBuilder(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Règles du jeu', style: GoogleFonts.getFont('Jomhuria', fontSize: 40)),
+        title: Text('Règles du jeu',
+            style: GoogleFonts.getFont('Jomhuria', fontSize: 40)),
         content: const SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,5 +111,3 @@ Future<void> dialogBuilder(BuildContext context) {
     },
   );
 }
-
-
