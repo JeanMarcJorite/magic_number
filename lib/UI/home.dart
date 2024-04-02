@@ -4,6 +4,7 @@ import 'package:magic_number/UI/page_jouer.dart';
 import 'package:magic_number/UI/page_score.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/main.dart';
+import 'package:magic_number/models/rules.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
