@@ -36,9 +36,14 @@ class GamePlay extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            Text(
+              'Bienvenue, $playerName',
+              style: GoogleFonts.getFont('Jomhuria', fontSize: 60),
+            ),
             Text(
               'Choisisez un niveau',
-              style: GoogleFonts.getFont('Jomhuria', fontSize: 65),
+              style: GoogleFonts.getFont('Jomhuria', fontSize: 50),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
