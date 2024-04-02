@@ -49,19 +49,39 @@ class _Page_ScoreState extends State<Page_Score> {
             return const Center(child: Text('Pas de score enregistré'));
           } else {
             return SingleChildScrollView(
-              child: PaginatedDataTable(
-                header: const Text('Users'),
-                rowsPerPage: _rowsPerPage,
-                availableRowsPerPage: const <int>[5, 8, 10, 20, 30, 50, 100],
-                onRowsPerPageChanged: (int? value) {
-                  setState(() {
-                    _rowsPerPage = value!;
-                  });
-                },
-                sortColumnIndex: _sortColumnIndex,
-                sortAscending: estCroissant,
-                columns: getColonnes(_columns),
-                source: _DataSource(context, users),
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  PaginatedDataTable(
+                    header: const Text('Users'),
+                    rowsPerPage: _rowsPerPage,
+                    availableRowsPerPage: const <int>[
+                      5,
+                      8,
+                      10,
+                      20,
+                      30,
+                      50,
+                      100
+                    ],
+                    onRowsPerPageChanged: (int? value) {
+                      setState(() {
+                        _rowsPerPage = value!;
+                      });
+                    },
+                    sortColumnIndex: _sortColumnIndex,
+                    sortAscending: estCroissant,
+                    columns: getColonnes(_columns),
+                    source: _DataSource(context, users),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Appeler la fonction pour supprimer les scores
+                      deleteScores(database);
+                    },
+                    child: const Text('Supprimer les scores'),
+                  )
+                ],
               ),
             );
           }
@@ -138,6 +158,46 @@ class _Page_ScoreState extends State<Page_Score> {
     } else {
       return 0;
     }
+  }
+
+  void deleteScores(Database database) {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer les scores ?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () {
+                deleteScoresConfirmed(database);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Confirmer'),
+            ),
+          ],
+        );
+      },
+    );
+
+  }
+  
+  void deleteScoresConfirmed(Database database) {
+  
+    database.delete('user').then((value) {
+      setState(() {
+        users = [];
+      });
+    }).catchError((e) {
+      print('Error deleting scores: $e');
+    });
   }
 }
 

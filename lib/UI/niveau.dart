@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/models/random_number.dart';
 import 'package:magic_number/UI/victoire.dart';
 import 'package:magic_number/UI/perdu.dart';
@@ -80,6 +79,19 @@ class _NiveauState extends State<Niveau> {
     }
   }
 
+
+
+  Text textNiveau() {
+    if (widget.level == 1) {
+      return Text('Le nombre magique est compris entre 1 et 20.', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+    } else if (widget.level == 2) {
+      return Text('Le nombre magique est compris entre 1 et 50', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+    } else {
+      return Text('Le nombre magique est compris entre 1 et 100', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     print(randomNumber.findNumber);
@@ -96,12 +108,13 @@ class _NiveauState extends State<Niveau> {
               Image.asset('assets/img/jafarGame.png', width: 300, height: 200),
               Text(
                 'Nombre d\'essais restants: ${randomNumber.nbCoupsRestants}',
-                style: GoogleFonts.getFont('Jomhuria', fontSize: 40),
+                style: GoogleFonts.getFont('Jomhuria', fontSize: 30),
               ),
+              textNiveau(),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Entrez un nombre',
-                  labelStyle: GoogleFonts.getFont('Jomhuria', fontSize: 40),
+                  labelStyle: GoogleFonts.getFont('Jomhuria', fontSize: 30),
                   border: const OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
