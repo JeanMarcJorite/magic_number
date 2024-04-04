@@ -21,14 +21,36 @@ class UserViewModel extends ChangeNotifier {
     refreshUsers();
   }
 
-  Future<void> updateScoreUser(User user, int score) async {
-    user.score = score;
+  Future<void> updateScoreUser(User user) async {
     await database.rawUpdate(
-      'UPDATE user SET score = ? WHERE name = ?',
-      [score, user.name],
+      'UPDATE user SET score = ? WHERE id = ?',
+      [user.score, user.id],
     );
+    print('score updated : ${user.id} ${user.score}');
     notifyListeners();
     refreshUsers();
+  }
+
+  Future<void> verifId(User user) async {
+    final List<Map<String, Object?>> userMaps = await database.query('user');
+    for (int i = 0; i < userMaps.length; i++) {
+      if (userMaps[i]['id'] == user.id) {
+        await updateScoreUser(user);
+        return;
+      }
+    }
+    await insertUser(user);
+  }
+
+  Future<int> selectMaxId() async {
+    final List<Map<String, dynamic>> userMaps = await database.query('user');
+    int maxId = 0;
+    for (int i = 0; i < userMaps.length; i++) {
+      if (userMaps[i]['id'] > maxId) {
+        maxId = userMaps[i]['id'] as int;
+      }
+    }
+    return maxId;
   }
 
   Future<void> deleteUser(User user) async {
@@ -40,7 +62,6 @@ class UserViewModel extends ChangeNotifier {
   Future<void> deleteAllUsers() async {
     await database.delete('user');
   }
-
 
   void refreshUsers() {
     liste = [];
@@ -56,8 +77,10 @@ class UserViewModel extends ChangeNotifier {
     final List<Map<String, Object?>> userMaps = await database.query('user');
     return List.generate(userMaps.length, (i) {
       return User(
+        id: userMaps[i]['id'] as int,
         name: userMaps[i]['name'] as String,
         score: userMaps[i]['score'] as int,
+        niveau: userMaps[i]['niveau'] as int,
       );
     });
   }
