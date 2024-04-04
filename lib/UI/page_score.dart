@@ -16,7 +16,7 @@ class Page_Score extends StatefulWidget {
 
 class _Page_ScoreState extends State<Page_Score> {
   int? _sortColumnIndex;
-  final List<String> _columns = ['Nom du joueur ', 'Score du joueur'];
+  final List<String> _columns = ['Nom du joueur ', 'Score du joueur', 'Niveau'];
   bool estCroissant = true;
   List<User> users = [];
   int _rowsPerPage = 8;
@@ -127,8 +127,10 @@ class _Page_ScoreState extends State<Page_Score> {
       if (maps.isNotEmpty) {
         return maps
             .map((userMap) => User(
+                  id: userMap['id'],
                   name: userMap['name'],
                   score: userMap['score'],
+                  niveau: userMap['niveau'],
                 ))
             .toList();
       } else {
@@ -148,7 +150,7 @@ class _Page_ScoreState extends State<Page_Score> {
       .toList();
 
   List<DataRow> getLignes() => users.map((User user) {
-        var cells = [user.name, user.score];
+        var cells = [user.name, user.score, user.niveau]; // Add 'niveau' cell
         return DataRow(cells: getCells(cells));
       }).toList();
 
@@ -230,6 +232,7 @@ class _Page_ScoreState extends State<Page_Score> {
   }
 }
 
+// Update the _DataSource class
 class _DataSource extends DataTableSource {
   final BuildContext context;
   final List<User> _users;
@@ -246,11 +249,12 @@ class _DataSource extends DataTableSource {
       cells: <DataCell>[
         DataCell(Text(user.name)),
         DataCell(Text(user.score.toString())),
+        DataCell(Text(user.niveau.toString())), 
       ],
     );
   }
-
-  @override
+  
+@override
   bool get isRowCountApproximate => false;
 
   @override

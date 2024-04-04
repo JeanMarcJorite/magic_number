@@ -27,20 +27,33 @@ class _NiveauState extends State<Niveau> {
   late int nbChercher;
   String message = '';
   int currentIndex = 0;
-  
+
   get pageController => null;
 
   @override
   void initState() {
     super.initState();
     randomNumber = RandomNumber(level: widget.level);
+    UserViewModel userViewModel =
+        Provider.of<UserViewModel>(context, listen: false);
+    print('userViewModel: $userViewModel');
+    userViewModel.insertUser(
+        User(id: 1, name: widget.playerName, score: 0, niveau: widget.level));
   }
 
   updateScore(int scoreUser) async {
     UserViewModel userViewModel =
         Provider.of<UserViewModel>(context, listen: false);
-    final user = User(name: widget.playerName, score: scoreUser);
-    await userViewModel.updateScoreUser(user, user.score);
+
+    int maxId = await userViewModel.selectMaxId();
+
+    final user = User(
+        id: maxId + 1,
+        name: widget.playerName,
+        score: scoreUser,
+        niveau: widget.level);
+
+    await userViewModel.verifId(user);
   }
 
   void submitNbChercher() {
@@ -51,9 +64,9 @@ class _NiveauState extends State<Niveau> {
         randomNumber.coup();
         if (randomNumber.nbCoupsRestants > 0 &&
             randomNumber.findNumber == nbChercher) {
-          updateScore(randomNumber.nbCoupsRestants);
-
-          navigationVictoire();
+          updateScore(randomNumber.nbCoupsRestants).then((_) {
+            navigationVictoire();
+          });
         } else if (randomNumber.isGameOver) {
           message = 'Perdu! Le nombre magique était ${randomNumber.findNumber}';
           navigationPerdu();
@@ -63,6 +76,7 @@ class _NiveauState extends State<Niveau> {
   }
 
   void navigationPerdu() {
+    updateScore(randomNumber.nbCoupsRestants);
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -84,18 +98,18 @@ class _NiveauState extends State<Niveau> {
     }
   }
 
-
-
   Text textNiveau() {
     if (widget.level == 1) {
-      return Text('Le nombre magique est compris entre 1 et 20.', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+      return Text('Le nombre magique est compris entre 1 et 20.',
+          style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
     } else if (widget.level == 2) {
-      return Text('Le nombre magique est compris entre 1 et 50', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+      return Text('Le nombre magique est compris entre 1 et 50',
+          style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
     } else {
-      return Text('Le nombre magique est compris entre 1 et 100', style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
+      return Text('Le nombre magique est compris entre 1 et 100',
+          style: GoogleFonts.getFont('Jomhuria', fontSize: 30));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +172,7 @@ class _NiveauState extends State<Niveau> {
                 if (currentIndex == 0) {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) =>  const MyHomePage()),
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
                     (Route<dynamic> route) => false,
                   );
                 } else {
@@ -168,8 +182,7 @@ class _NiveauState extends State<Niveau> {
                     (Route<dynamic> route) => true,
                   );
                 }
-              })
-        ),
+              })),
     );
   }
 }

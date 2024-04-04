@@ -6,16 +6,15 @@ import 'package:magic_number/viewmodel/user_view_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:provider/provider.dart';
-import 'package:magic_number/models/rules.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final database = openDatabase(
     join(await getDatabasesPath(), 'user_database.db'),
-    onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE user (name TEXT PRIMARY KEY, score INTEGER)',
+    onCreate: (db, version) async {
+      return await db.execute(
+        'CREATE TABLE user(id INTEGER PRIMARY KEY, name TEXT, score INTEGER, niveau INTEGER)',
       );
     },
     version: 1,
@@ -55,4 +54,3 @@ class MagicNumber extends StatelessWidget {
     );
   }
 }
-

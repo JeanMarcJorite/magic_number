@@ -3,9 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:magic_number/UI/button.dart';
 import 'package:magic_number/UI/home.dart';
 import 'package:magic_number/UI/niveau.dart';
-import 'package:magic_number/models/user.dart';
-import 'package:magic_number/viewmodel/user_view_model.dart';
-import 'package:provider/provider.dart';
+
 
 class GamePlay extends StatelessWidget {
   final String playerName;
@@ -14,9 +12,7 @@ class GamePlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserViewModel userViewModel =
-        Provider.of<UserViewModel>(context, listen: false);
-    userViewModel.insertUser(User(name: playerName, score: 0));
+   
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCEE4F2),
